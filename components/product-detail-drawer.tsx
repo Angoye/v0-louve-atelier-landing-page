@@ -2,9 +2,6 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Product } from '@/lib/products';
 import { useCart } from '@/app/cart-context';
 
@@ -14,8 +11,11 @@ interface ProductDetailDrawerProps {
   onOpenChange: (open: boolean) => void;
 }
 
+type TabType = 'description' | 'ingredients' | 'howto' | 'precautions';
+
 export function ProductDetailDrawer({ product, open, onOpenChange }: ProductDetailDrawerProps) {
   const [quantity, setQuantity] = useState(1);
+  const [activeTab, setActiveTab] = useState<TabType>('description');
   const { addItem } = useCart();
 
   if (!open || !product) return null;
@@ -32,119 +32,129 @@ export function ProductDetailDrawer({ product, open, onOpenChange }: ProductDeta
     onOpenChange(false);
   };
 
-  return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-end md:items-center justify-center">
-      <div
-        className="bg-background w-full md:w-[90%] md:max-w-2xl md:rounded-lg rounded-t-2xl max-h-[90vh] overflow-y-auto flex flex-col"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close Button */}
-        <div className="sticky top-0 flex justify-end p-4 bg-background border-b border-border z-10">
-          <button
-            onClick={() => onOpenChange(false)}
-            className="text-foreground hover:text-primary"
-            aria-label="Close"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+  const handleOverlayClick = () => {
+    onOpenChange(false);
+  };
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-            {/* Product Image */}
-            <div className="flex items-center justify-center bg-muted rounded-lg aspect-square">
+  return (
+    <>
+      {/* Modal Overlay */}
+      <div
+        className="fixed inset-0 z-50 bg-black/50 transition-opacity"
+        onClick={handleOverlayClick}
+      />
+
+      {/* Modal Container */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+        <div
+          className="bg-background w-11/12 max-w-4xl max-h-[85vh] rounded pointer-events-auto overflow-y-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Close Button */}
+          <div className="sticky top-0 flex justify-end p-6 bg-background border-b border-border z-10">
+            <button
+              onClick={() => onOpenChange(false)}
+              className="text-2xl font-light text-foreground hover:text-accent transition-colors"
+              aria-label="Close"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Modal Grid: Image | Content */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
+            {/* Left: Product Image */}
+            <div className="flex items-center justify-center aspect-square bg-muted rounded overflow-hidden">
               <Image
                 src={product.image}
                 alt={product.name}
-                width={400}
-                height={400}
-                className="w-full h-full object-cover rounded-lg"
+                width={500}
+                height={500}
+                className="w-full h-full object-cover"
               />
             </div>
 
-            {/* Product Info */}
+            {/* Right: Product Content */}
             <div className="flex flex-col">
+              {/* Product Header */}
               <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-2">
                 {product.name}
               </h2>
               <p className="text-sm text-muted-foreground mb-1">{product.size}</p>
-              <p className="text-lg font-serif text-accent mb-4">${product.price}</p>
-              <p className="text-sm text-muted-foreground mb-6">{product.oneBenefit}</p>
+              <p className="text-xl font-serif text-accent mb-6">${product.price.toFixed(2)}</p>
 
-              {/* Tabs */}
-              <Tabs defaultValue="description" className="w-full mb-6">
-                <TabsList className="w-full grid grid-cols-4 h-auto bg-muted p-1 rounded">
-                  <TabsTrigger value="description" className="text-xs md:text-sm">
-                    Description
-                  </TabsTrigger>
-                  <TabsTrigger value="ingredients" className="text-xs md:text-sm">
-                    Ingredients
-                  </TabsTrigger>
-                  <TabsTrigger value="howto" className="text-xs md:text-sm">
-                    How to Use
-                  </TabsTrigger>
-                  <TabsTrigger value="precautions" className="text-xs md:text-sm">
-                    Precautions
-                  </TabsTrigger>
-                </TabsList>
+              {/* Tab Buttons */}
+              <div className="flex gap-0 border-b border-muted mb-4">
+                {(['description', 'ingredients', 'howto', 'precautions'] as TabType[]).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+                      activeTab === tab
+                        ? 'text-accent border-accent'
+                        : 'text-muted-foreground border-transparent hover:text-foreground'
+                    }`}
+                  >
+                    {tab === 'description' && 'Description'}
+                    {tab === 'ingredients' && 'Ingredients'}
+                    {tab === 'howto' && 'How to Use'}
+                    {tab === 'precautions' && 'Precautions'}
+                  </button>
+                ))}
+              </div>
 
-                <TabsContent value="description" className="mt-4 text-sm text-foreground">
-                  {product.description}
-                </TabsContent>
-
-                <TabsContent value="ingredients" className="mt-4">
-                  <p className="text-sm text-foreground whitespace-pre-wrap">
+              {/* Tab Content */}
+              <div className="flex-1 mb-6 text-sm text-foreground leading-relaxed">
+                {activeTab === 'description' && <p>{product.description}</p>}
+                {activeTab === 'ingredients' && (
+                  <p className="text-xs text-muted-foreground whitespace-pre-wrap">
                     {product.ingredients}
                   </p>
-                </TabsContent>
+                )}
+                {activeTab === 'howto' && (
+                  <p className="whitespace-pre-wrap">{product.howToUse}</p>
+                )}
+                {activeTab === 'precautions' && (
+                  <p className="whitespace-pre-wrap">{product.precautions}</p>
+                )}
+              </div>
 
-                <TabsContent value="howto" className="mt-4">
-                  <p className="text-sm text-foreground whitespace-pre-wrap">
-                    {product.howToUse}
-                  </p>
-                </TabsContent>
-
-                <TabsContent value="precautions" className="mt-4">
-                  <p className="text-sm text-foreground whitespace-pre-wrap">
-                    {product.precautions}
-                  </p>
-                </TabsContent>
-              </Tabs>
-
-              {/* Quantity and Add to Cart */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <span className="text-sm text-foreground">Quantity:</span>
-                  <div className="flex items-center border border-border rounded">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-3 py-2 text-foreground hover:bg-muted"
-                    >
-                      −
-                    </button>
-                    <span className="px-4 py-2 text-foreground min-w-12 text-center">
-                      {quantity}
-                    </span>
-                    <button
-                      onClick={() => setQuantity(Math.min(5, quantity + 1))}
-                      className="px-3 py-2 text-foreground hover:bg-muted"
-                    >
-                      +
-                    </button>
-                  </div>
+              {/* Quantity & Add to Cart */}
+              <div className="border-t border-muted pt-6 flex gap-4">
+                {/* Quantity Selector */}
+                <div className="flex items-center border border-muted rounded">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-9 h-9 flex items-center justify-center text-foreground hover:bg-muted transition-colors"
+                  >
+                    −
+                  </button>
+                  <input
+                    type="number"
+                    value={quantity}
+                    readOnly
+                    className="w-12 text-center border-none bg-transparent text-foreground focus:outline-none"
+                  />
+                  <button
+                    onClick={() => setQuantity(Math.min(5, quantity + 1))}
+                    className="w-9 h-9 flex items-center justify-center text-foreground hover:bg-muted transition-colors"
+                  >
+                    +
+                  </button>
                 </div>
-                <Button
+
+                {/* Add to Cart Button */}
+                <button
                   onClick={handleAddToCart}
-                  className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-medium"
+                  className="flex-1 bg-accent text-accent-foreground font-semibold px-6 py-2 hover:bg-accent/90 transition-colors"
                 >
-                  Add to Cart
-                </Button>
+                  Add to Cart — ${(product.price * quantity).toFixed(2)}
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
