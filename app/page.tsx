@@ -57,100 +57,70 @@ export default function Home() {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-0.5 bg-gradient-gold" />
       </section>
 
-      {/* Collection Section */}
-      <section id="collection" className="container mx-auto px-4 py-20">
-        <div className="text-center mb-12 animate-slide-up">
-          <div className="gold-line mx-auto mb-6" />
-          <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-3">
-            The Collection
-          </h2>
-          <p className="text-muted-foreground">
-            Five essentials. One standard: effective.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-          {products.map((product, index) => (
-            <div 
-              key={product.id} 
-              className="animate-scale-in"
-              style={{ animationDelay: `${index * 0.05}s` }}
-            >
-              <ProductCard 
-                product={product} 
-                onView={() => setSelectedProduct(product)}
-                onAdd={() => addToCart(product)}
-              />
+  "use client";
+
+import { useState } from "react";
+
+// Simple product data right in the file (no imports)
+const products = [
+  { id: 1, name: "Calming Lavender Yoni Wash", size: "160ml / 5.35oz", price: 32, description: "Mild odor-blocking and neutralizing wash for your most intimate area." },
+  { id: 2, name: "Calming Lavender Yoni Oil", size: "60ml / 2oz", price: 48, description: "Helps fight dryness, chafing, inflammation, and irritation of vulvar skin." },
+  { id: 3, name: "Calming Lavender Yoni Scrub", size: "200g / 6.76oz", price: 38, description: "Removes dead skin cells to reveal softer, smoother, brighter skin." },
+  { id: 4, name: "Lavender Petal Vajacial Jelly Mask", size: "45g / 1.5oz", price: 12, description: "Powder-to-jelly mask with real lavender petals. Peel off after 10-15 mins." },
+  { id: 5, name: "Lavender Hydrate Vajacial Gel Mask", size: "100ml / 3.38oz", price: 28, description: "Cooling gel mask that soothes, calms, moisturizes, and rejuvenates." },
+];
+
+export default function Home() {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    setCart([...cart, { ...product, quantity: 1 }]);
+    alert(`Added ${product.name} to cart`);
+  };
+
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="text-center py-20 px-4 bg-gradient-to-b from-[#FEFCF8] to-[#F5F0E8]">
+        <h1 className="font-serif text-4xl md:text-6xl text-[#2C2A2E] mb-4">
+          Your body. Your standard.
+        </h1>
+        <p className="text-lg text-[#8E7D8E] mb-8">
+          pH-balanced intimate care. Made simple.
+        </p>
+        <button 
+          onClick={() => document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" })}
+          className="bg-[#B5946C] text-white px-8 py-3 hover:bg-[#D4A574] transition-colors"
+        >
+          Shop the collection
+        </button>
+      </section>
+
+      {/* Collection */}
+      <section id="collection" className="container mx-auto px-4 py-16">
+        <h2 className="font-serif text-3xl text-center text-[#2C2A2E] mb-8">The Collection</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          {products.map((product) => (
+            <div key={product.id} className="border border-[#E8E0D5] p-4 text-center hover:shadow-lg transition-shadow">
+              <div className="text-5xl mb-4">🌸</div>
+              <h3 className="font-serif text-lg font-medium">{product.name}</h3>
+              <p className="text-sm text-[#8E7D8E] mb-2">{product.size}</p>
+              <p className="text-[#B5946C] font-bold text-xl mb-3">${product.price}</p>
+              <button 
+                onClick={() => addToCart(product)}
+                className="w-full bg-[#6A5A6E] text-white py-2 hover:bg-[#B5946C] transition-colors"
+              >
+                Add to Cart
+              </button>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Trust Badges - Enhanced */}
-      <section className="bg-secondary/30 py-16 border-y border-border/50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            {[
-              { title: "pH-Balanced", desc: "Formulated to respect your natural equilibrium", icon: "⚖️" },
-              { title: "Lavender-Infused", desc: "Calming, antibacterial, and gentle", icon: "🌸" },
-              { title: "External Use Only", desc: "Safe, clear, and honest", icon: "✨" }
-            ].map((badge, i) => (
-              <div key={i} className="card-luxury p-6 bg-card/50 backdrop-blur-sm">
-                <div className="text-3xl mb-3">{badge.icon}</div>
-                <h3 className="font-serif text-xl text-foreground mb-2">{badge.title}</h3>
-                <p className="text-muted-foreground text-sm">{badge.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Bottom CTA */}
-      <section className="container mx-auto px-4 py-20 text-center">
-        <div className="glass rounded-2xl p-12 max-w-3xl mx-auto">
-          <h3 className="font-serif text-2xl md:text-3xl text-foreground mb-3">
-            Clean care. Real results.
-          </h3>
-          <p className="text-muted-foreground mb-6">
-            Full ingredients listed. No hidden fillers. No harsh sulfates.
-          </p>
-          <button 
-            onClick={() => document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" })}
-            className="btn-gold px-8 py-3 rounded-none"
-          >
-            Start your routine
-          </button>
-        </div>
-      </section>
-
-      {/* Drawers */}
-      {selectedProduct && (
-        <ProductDetailDrawer 
-          product={selectedProduct} 
-          onClose={() => setSelectedProduct(null)}
-          onAdd={() => addToCart(selectedProduct)}
-        />
-      )}
-      
-      <CartDrawer 
-        open={showCart}
-        onClose={() => setShowCart(false)}
-        cart={cart}
-        onUpdateQuantity={updateQuantity}
-        onRemove={removeFromCart}
-        total={total}
-        onCheckout={() => {
-          setShowCart(false);
-          setShowCheckout(true);
-        }}
-      />
-      
-      <CheckoutDrawer 
-        open={showCheckout}
-        onClose={() => setShowCheckout(false)}
-        total={total}
-        cart={cart}
-      />
+      {/* Footer */}
+      <footer className="bg-[#6A5A6E] text-white text-center py-8 mt-16">
+        <p>© 2024 Louve Atelier. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
