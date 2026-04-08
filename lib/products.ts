@@ -11,7 +11,10 @@ export interface Product {
   image: string;
 }
 
-export const PRODUCTS: Product[] = [
+// Ensure PRODUCTS is properly exported
+const PRODUCTS_DATA: Product[] = [
+
+
   {
     id: '1',
     name: 'Calming Lavender Yoni Wash',
@@ -73,3 +76,5 @@ export const PRODUCTS: Product[] = [
     image: '/product-5.jpg',
   },
 ];
+
+export const PRODUCTS: Product[] = PRODUCTS_DATA;
