@@ -1,23 +1,23 @@
 'use client';
 
-import { Heart, Leaf, Zap } from 'lucide-react';
+import { Shield, Flower, CheckCircle } from 'lucide-react';
 
 export function FeaturesSection() {
   const features = [
     {
-      icon: Heart,
-      title: 'Sustainably Sourced',
-      description: 'Every product is ethically sourced from responsible suppliers who share our values.',
+      icon: Shield,
+      title: 'pH-Balanced',
+      description: 'Formulated to respect your natural equilibrium.',
     },
     {
-      icon: Leaf,
-      title: 'Natural Ingredients',
-      description: 'We believe in the power of nature. All our products are made with organic, plant-based ingredients.',
+      icon: Flower,
+      title: 'Lavender-Infused',
+      description: 'Calming, antibacterial, and gentle on sensitive skin.',
     },
     {
-      icon: Zap,
-      title: 'Luxury Quality',
-      description: 'Premium products designed for lasting impact on your wellness journey.',
+      icon: CheckCircle,
+      title: 'External Use Only',
+      description: 'Safe, clear, and honest about our product benefits.',
     },
   ];
 

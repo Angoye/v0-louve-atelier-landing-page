@@ -21,26 +21,29 @@ export function HeroSection({ onShopClick }: HeroSectionProps) {
           {/* Text Content */}
           <div className="space-y-6">
             <div>
-              <h2 className="font-serif text-5xl md:text-6xl text-foreground leading-tight mb-4">
-                Rituals of <span className="text-accent">Grace</span>
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Discover curated wellness products designed for the modern woman. Each item is thoughtfully selected to elevate your daily rituals.
+              <h1 className="font-serif text-5xl md:text-6xl text-foreground leading-tight mb-4">
+                Intimate care that <span className="text-accent">actually works</span>
+              </h1>
+              <p className="text-lg text-muted-foreground leading-relaxed mb-2">
+                pH-balanced. Lavender-infused. Made for your body.
+              </p>
+              <p className="text-base text-muted-foreground leading-relaxed">
+                No spiritual jargon. Just clean, effective intimate care.
               </p>
             </div>
 
             <div className="flex gap-4">
               <Button
                 onClick={onShopClick}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base"
+                className="bg-accent text-accent-foreground hover:bg-accent/90 px-8 py-6 text-base font-medium"
               >
-                Explore Collection
+                Shop now
               </Button>
               <Button
                 variant="outline"
-                className="px-8 py-6 text-base"
+                className="px-8 py-6 text-base font-medium border-primary text-primary hover:bg-primary/5"
               >
-                Learn More
+                The ingredients
               </Button>
             </div>
           </div>

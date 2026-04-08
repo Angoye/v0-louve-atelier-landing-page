@@ -150,6 +150,9 @@ export function CheckoutDrawer({ open, onOpenChange }: CheckoutDrawerProps) {
 
   const renderInfoStep = () => (
     <div className="space-y-4">
+      <div className="bg-accent/10 p-3 rounded text-sm text-foreground">
+        <p>We deliver across Kenya. Enter your details below.</p>
+      </div>
       <div>
         <Label htmlFor="name" className="text-foreground">
           Full Name
@@ -179,27 +182,27 @@ export function CheckoutDrawer({ open, onOpenChange }: CheckoutDrawerProps) {
       </div>
       <div>
         <Label htmlFor="phone" className="text-foreground">
-          Phone Number
+          Phone Number (Kenya)
         </Label>
         <Input
           id="phone"
           name="phone"
           value={formData.phone}
           onChange={handleInfoChange}
-          placeholder="+254 700 000000"
+          placeholder="0700000000"
           className="mt-1"
         />
       </div>
       <div>
         <Label htmlFor="address" className="text-foreground">
-          Delivery Address
+          Delivery Address (Kenya)
         </Label>
         <Input
           id="address"
           name="address"
           value={formData.address}
           onChange={handleInfoChange}
-          placeholder="123 Main Street, City"
+          placeholder="Nairobi, Kiambu, etc."
           className="mt-1"
         />
       </div>
@@ -258,18 +261,59 @@ export function CheckoutDrawer({ open, onOpenChange }: CheckoutDrawerProps) {
       </div>
 
       {paymentMethod === 'mpesa' && (
-        <div className="p-3 bg-secondary/30 rounded text-sm text-muted-foreground">
-          <p className="mb-2">You will receive a prompt on your phone to complete the payment.</p>
-          <p>Enter your M-Pesa PIN to confirm the transaction.</p>
+        <div className="space-y-3">
+          <div>
+            <Label htmlFor="mpesa-phone" className="text-foreground">
+              M-Pesa Phone Number
+            </Label>
+            <Input
+              id="mpesa-phone"
+              placeholder="0700000000"
+              className="mt-1"
+            />
+          </div>
+          <div className="p-3 bg-accent/10 rounded text-sm text-foreground">
+            <p className="mb-2 font-medium">How it works:</p>
+            <p className="mb-2">1. Click "Send STK Push" below</p>
+            <p className="mb-2">2. You&apos;ll receive a prompt on your phone</p>
+            <p>3. Enter your M-Pesa PIN to complete payment</p>
+          </div>
         </div>
       )}
 
       {paymentMethod === 'card' && (
         <div className="space-y-3">
-          <Input placeholder="Card Number" />
+          <div>
+            <Label htmlFor="card-number" className="text-foreground">
+              Card Number
+            </Label>
+            <Input
+              id="card-number"
+              placeholder="1234 5678 9012 3456"
+              className="mt-1"
+            />
+          </div>
           <div className="grid grid-cols-2 gap-3">
-            <Input placeholder="MM/YY" />
-            <Input placeholder="CVV" />
+            <div>
+              <Label htmlFor="card-expiry" className="text-foreground text-sm">
+                Expiry
+              </Label>
+              <Input
+                id="card-expiry"
+                placeholder="MM/YY"
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="card-cvc" className="text-foreground text-sm">
+                CVC
+              </Label>
+              <Input
+                id="card-cvc"
+                placeholder="123"
+                className="mt-1"
+              />
+            </div>
           </div>
         </div>
       )}
@@ -284,9 +328,9 @@ export function CheckoutDrawer({ open, onOpenChange }: CheckoutDrawerProps) {
         </Button>
         <Button
           onClick={handleCompleteOrder}
-          className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90"
+          className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90 font-medium"
         >
-          Complete Order
+          {paymentMethod === 'mpesa' ? 'Send STK Push' : 'Pay Now'}
         </Button>
       </div>
     </div>
@@ -310,20 +354,21 @@ export function CheckoutDrawer({ open, onOpenChange }: CheckoutDrawerProps) {
         </svg>
       </div>
       <div>
-        <h3 className="font-serif text-lg text-foreground mb-2">Order Confirmed!</h3>
+        <h3 className="font-serif text-lg text-foreground mb-2">Order Confirmed</h3>
         <p className="text-sm text-muted-foreground">
-          Thank you for your purchase. A confirmation email has been sent to{' '}
+          Thank you for your order. A confirmation email has been sent to{' '}
           <span className="font-medium text-foreground">{formData.email}</span>
         </p>
       </div>
-      <div className="bg-secondary/50 p-4 rounded text-sm text-foreground">
-        <p className="mb-1">
+      <div className="bg-accent/10 p-4 rounded text-sm text-foreground space-y-2">
+        <div>
           <span className="text-muted-foreground">Order Total:</span>{' '}
           <span className="font-serif text-accent">${total.toFixed(2)}</span>
-        </p>
-        <p className="text-muted-foreground text-xs">
-          You will receive tracking information shortly.
-        </p>
+        </div>
+        <div className="border-t pt-2">
+          <p className="font-medium mb-1">What&apos;s next?</p>
+          <p className="text-xs text-muted-foreground">You&apos;ll receive a text message with delivery updates.</p>
+        </div>
       </div>
       <Button
         onClick={handleNewOrder}

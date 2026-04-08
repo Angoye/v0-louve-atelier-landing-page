@@ -6,6 +6,7 @@ import { Header } from '@/components/header';
 import { HeroSection } from '@/components/hero-section';
 import { ProductGridSection } from '@/components/product-grid-section';
 import { FeaturesSection } from '@/components/features-section';
+import { IngredientsSection } from '@/components/ingredients-section';
 import { FooterSection } from '@/components/footer-section';
 import { CheckoutDrawer } from '@/components/checkout-drawer';
 
@@ -19,8 +20,9 @@ export default function Home() {
         <HeroSection onShopClick={() => setCheckoutOpen(true)} />
         <ProductGridSection />
         <FeaturesSection />
+        <IngredientsSection />
       </main>
-      <FooterSection />
+      <FooterSection onShopClick={() => setCheckoutOpen(true)} />
       <CheckoutDrawer open={checkoutOpen} onOpenChange={setCheckoutOpen} />
     </CartProvider>
   );
