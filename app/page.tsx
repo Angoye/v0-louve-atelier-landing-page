@@ -1,73 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { products } from "@/lib/products";
-import { ProductCard } from "@/components/product-card";
-import { ProductDetailDrawer } from "@/components/product-detail-drawer";
-import { CartDrawer } from "@/components/cart-drawer";
-import { CheckoutDrawer } from "@/components/checkout-drawer";
-import { useCart } from "@/hooks/use-cart";
 
-export default function Home() {
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [showCart, setShowCart] = useState(false);
-  const [showCheckout, setShowCheckout] = useState(false);
-  const { cart, addToCart, updateQuantity, removeFromCart, total } = useCart();
-
-  return (
-    <div className="min-h-screen">
-      {/* Hero Section - Enhanced */}
-      <section className="relative overflow-hidden bg-gradient-warm">
-        {/* Decorative texture overlay */}
-        <div className="absolute inset-0 texture-overlay opacity-30" />
-        
-        {/* Animated gold accent line - top */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-0.5 bg-gradient-gold animate-scale-in" />
-        
-        <div className="container mx-auto px-4 py-20 md:py-28 text-center animate-fade-in">
-          <div className="inline-block mb-6 px-4 py-1.5 rounded-full bg-secondary/50 backdrop-blur-sm border border-gold/20">
-            <span className="text-xs tracking-wider text-accent uppercase">Clean. Effective. Honest.</span>
-          </div>
-          
-          <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-foreground mb-6 leading-tight">
-            Your body.
-            <br />
-            <span className="text-gradient-lavender">Your standard.</span>
-          </h1>
-          
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            pH-balanced intimate care. Made simple.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={() => document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" })}
-              className="btn-gold px-8 py-3.5 rounded-none text-white font-medium tracking-wide hover:shadow-lg transition-all duration-300"
-            >
-              Shop the collection
-            </button>
-            <button className="group px-8 py-3.5 rounded-none border border-accent/40 bg-transparent text-accent font-medium hover:bg-accent hover:text-white transition-all duration-300">
-              The ingredients
-              <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">→</span>
-            </button>
-          </div>
-        </div>
-        
-        {/* Bottom gold line */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-0.5 bg-gradient-gold" />
-      </section>
-
-  "use client";
-
-import { useState } from "react";
-
-// Simple product data right in the file (no imports)
 const products = [
   { id: 1, name: "Calming Lavender Yoni Wash", size: "160ml / 5.35oz", price: 32, description: "Mild odor-blocking and neutralizing wash for your most intimate area." },
   { id: 2, name: "Calming Lavender Yoni Oil", size: "60ml / 2oz", price: 48, description: "Helps fight dryness, chafing, inflammation, and irritation of vulvar skin." },
   { id: 3, name: "Calming Lavender Yoni Scrub", size: "200g / 6.76oz", price: 38, description: "Removes dead skin cells to reveal softer, smoother, brighter skin." },
   { id: 4, name: "Lavender Petal Vajacial Jelly Mask", size: "45g / 1.5oz", price: 12, description: "Powder-to-jelly mask with real lavender petals. Peel off after 10-15 mins." },
-  { id: 5, name: "Lavender Hydrate Vajacial Gel Mask", size: "100ml / 3.38oz", price: 28, description: "Cooling gel mask that soothes, calms, moisturizes, and rejuvenates." },
+  { id: 5, name: "Lavender Hydrate Vajacial Gel Mask", size: "100ml / 3.38oz", price: 28, description: "Cooling gel mask that soothes, calms, moisturizes, and rejuvenates." }
 ];
 
 export default function Home() {
@@ -117,8 +57,28 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Trust Badges */}
+      <section className="bg-[#F5F0E8] py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div>
+              <h3 className="font-serif text-xl mb-2">pH-Balanced</h3>
+              <p className="text-sm text-[#8E7D8E]">Formulated to respect your natural equilibrium</p>
+            </div>
+            <div>
+              <h3 className="font-serif text-xl mb-2">Lavender-Infused</h3>
+              <p className="text-sm text-[#8E7D8E]">Calming, antibacterial, and gentle</p>
+            </div>
+            <div>
+              <h3 className="font-serif text-xl mb-2">External Use Only</h3>
+              <p className="text-sm text-[#8E7D8E]">Safe, clear, and honest</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="bg-[#6A5A6E] text-white text-center py-8 mt-16">
+      <footer className="bg-[#6A5A6E] text-white text-center py-8">
         <p>© 2024 Louve Atelier. All rights reserved.</p>
       </footer>
     </div>
