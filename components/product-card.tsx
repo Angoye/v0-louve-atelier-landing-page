@@ -1,63 +1,36 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { useCart } from '@/app/cart-context';
-import Image from 'next/image';
-import { Product } from '@/lib/products';
+import Image from "next/image";
 
-interface ProductCardProps {
-  product: Product;
-  onViewProduct: () => void;
-}
-
-export function ProductCard({ product, onViewProduct }: ProductCardProps) {
-  const { addItem } = useCart();
-
-  const handleQuickShop = () => {
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      quantity: 1,
-    });
-  };
-
+export function ProductCard({ product, onView, onAdd }) {
   return (
-    <div className="flex flex-col h-full group">
-      {/* Product Image */}
-      <div className="relative overflow-hidden bg-muted aspect-square mb-4 rounded-lg">
-        <Image
-          src={product.image}
-          alt={product.name}
-          width={400}
-          height={400}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
+    <div className="card-luxury group bg-card border border-border/50 p-5 transition-all duration-300 hover:border-accent/30">
+      {/* Image Container with hover effect */}
+      <div className="product-image-container aspect-square mb-4 overflow-hidden bg-secondary/50">
+        <div className="w-full h-full flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-500">
+          🌸
+        </div>
       </div>
-
-      {/* Product Info */}
-      <h3 className="font-serif text-sm md:text-base text-foreground mb-1 leading-snug">
+      
+      <h3 className="font-serif text-lg font-medium text-foreground mb-1">
         {product.name}
       </h3>
-      <p className="text-xs text-muted-foreground mb-3">{product.size}</p>
-      <p className="text-lg font-serif text-accent mb-4">${product.price.toFixed(2)}</p>
-
-      {/* Buttons */}
-      <div className="flex gap-2 mt-auto">
-        <Button
-          onClick={onViewProduct}
-          variant="outline"
-          className="flex-1 border-accent text-accent hover:bg-secondary hover:text-accent"
+      <p className="text-xs text-muted-foreground mb-2">{product.size}</p>
+      <p className="text-accent font-semibold text-lg mb-4">${product.price}</p>
+      
+      <div className="flex gap-2">
+        <button 
+          onClick={onView}
+          className="flex-1 px-3 py-2 text-sm border border-accent/40 text-accent hover:bg-accent hover:text-white transition-all duration-200"
         >
-          View Product
-        </Button>
-        <Button
-          onClick={handleQuickShop}
-          className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90"
+          View
+        </button>
+        <button 
+          onClick={onAdd}
+          className="flex-1 px-3 py-2 text-sm btn-gold"
         >
-          Quick Shop
-        </Button>
+          Add
+        </button>
       </div>
     </div>
   );

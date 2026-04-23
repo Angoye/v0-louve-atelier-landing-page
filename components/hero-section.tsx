@@ -28,7 +28,7 @@ export function HeroSection({ onShopClick }: HeroSectionProps) {
                 pH-balanced. Lavender-infused. Made for your body.
               </p>
               <p className="text-base text-muted-foreground leading-relaxed">
-                No spiritual jargon. Just clean, effective intimate care.
+                Your daily routine, Just clean & effective intimate care.
               </p>
             </div>
 
